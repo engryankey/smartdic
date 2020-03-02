@@ -1,0 +1,129 @@
+{% extends 'naijadict\base.html' %}
+{% load static %}
+
+{% block title %}Registration{% endblock %}
+{% block body %}
+{% if user.is_authenticated %}
+    <br><br><br><br>
+    <h1 class="display-4" align="center">You are logged in already.</h1>
+{% else %}
+    {% if registered %}
+        <br><br>
+        <h2 align="center" class="displa-4">Thank you <span id="thnk">{{newname|title}}</span> for registering.</h2>
+        <h3 align="center">Please <a href="{% url 'userlogin' %}"><span id="thnk"><strong>CLICK HERE</strong></span></a> to login.</h3>
+    {% else %}
+        <di class="row">
+            <div class="col">
+                
+            </div>
+            <div class="col-8">
+                <h3 align="center" id="loglogo"><img src="{% static "images/navbar2.png" %}" width="100px" height="auto"></h3>
+                <h3 align="center" id="naijadgreen">Please fill in your details correctly.</h3>
+                
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                        
+                        {{ form.first_name }}
+                        {{ form.first_name.errors }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            
+                        {{ form.last_name }}
+                        {{ form.last_name.errors }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                        
+                        {{ form.username }}
+                        {{ form.username.errors }}
+                        <!-- {{ form.username.help_text }} -->
+                        
+                        </div>
+                        <div class="form-group col-md-6">
+                        {{ form.email }}
+                        <span class="text-muted">{{ form.email.errors }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                        {{ form.password }}
+                        {{ form.password.errors }}
+                        </div>
+                        <div class="form-group col-md-6">
+                        {{ form.password2 }}
+                        {{ form.password2.errors }} 
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="form-check">
+                        {{ otherform.gender }}
+                        {{ otherform.gender.errors }}
+                        
+
+                    </div> -->
+                    
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            {{ otherform.location }}
+                            <span class="text-muted">{{ otherform.location.errors }}</span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            {{otherform.gender}}
+                        <!-- GENDER &nbsp;
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="customRadioInline1" name="gender" value="male" class="custom-control-input">
+                            <label class="custom-control-label" for="customRadioInline1">Male</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="customRadioInline2" name="gender" value="female" class="custom-control-input">
+                            <label class="custom-control-label" for="customRadioInline2">Female</label>
+                        </div> -->
+                        </div>
+                    </div>
+                                        <!-- <div class="form-group">
+                        {{ otherform.gender}}
+                        {{ otherform.gender.errors }}
+                    </div> -->
+                    <div class="row">
+                        
+                        <div class="form-group col-md-2">
+                            {{ otherform.age }}
+                            {{ otherform.age.errors }}
+                        </div>
+                        <div class="form-group col-md-10">
+                            <div class="form-row">
+                                <div class="col-2">
+                                    <strong>Upload a picture</strong> 
+                                </div>
+                                <div class="col-10">
+                                    {{ otherform.profile_pic }}
+                                    {{ otherform.profile_pic.errors }}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-success btn-lg btn-block">REGISTER</button>
+                    </div>
+                </form>
+                {{ form.non_field_errors }} 
+                {% if form.errors %} 
+                    {{ form.errors|pluralize }} 
+                {% endif %} 
+                {% for field in form %} 
+                    {{ field.error }} 
+                    {{ field.field.error }} 
+                {% endfor %} 
+
+            </div>
+            <div class="col">
+                
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

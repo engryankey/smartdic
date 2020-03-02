@@ -1,0 +1,100 @@
+{% extends 'naijadict\base.html' %}
+{% load staticfiles %}
+
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-4" id="leftdash">
+        <div align="center">
+            {% if user.userprofile.profile_pic %}
+                <img src="{{MEDIA_URL}}{{user.userprofile.profile_pic}}" class="al" align="center">
+            {% else %}
+                {% if user.userprofile.gender == "male" %}
+                    <img src="{% static "images/manav.png" %}" class="al" align="center">
+                {% else %}
+                <img src="{% static "images/womana.png" %}" class="al" align="center">
+                {% endif %}
+            {% endif %}
+        </div>
+        <br>
+        <div align="center">
+            <h3 id="naijadgreen">{{user.first_name|title}} {{user.last_name|title}}</h3>
+            <strong>Member since</strong><br>
+            {{user.date_joined|date:"D d M Y"}}.
+            <br><br>
+            <strong>Gender</strong><br>
+            {{user.userprofile.gender|title}}
+            <br><br>
+            <strong>Age</strong><br>
+            {{user.userprofile.age}}<br><br>
+            <strong>Location</strong><br>
+            {{user.userprofile.location|title}}<br>
+            <br>
+            <a href="{% url 'updateprofile' pk=user.userprofile.pk %}"><button type="submit" class="btn btn-success">UPDATE PROFILE</button></a>
+        </div>
+    </div>
+    <div class="col">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <br>
+        <h3 id="naijadgreen" align="center">Fill this form to Submit a word and its definition.</h3>
+        <div class="row">
+            <div class="col-1">
+
+            </div>
+            <div class="col-10">
+            <form action="" method="post">
+                {% csrf_token %}
+                <!-- {{form}} -->
+                <input type="hidden" name="user_name" value="{{user.username}}">
+                
+                <div class="row">
+                    <div class="form-group col-md-6">
+                    
+                    {{ form.word }}
+                    {{ form.word.errors }}
+                    {{ form.word.help_text }}
+                    
+                    </div>
+                    <div class="form-group col-md-6">
+                    {{ form.language }}
+                    {{ form.language.errors }}
+                    <span class="text-muted">{{ form.language.help_text }}</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                            
+                    {{ form.meaning }}
+                    {{ form.meaning.errors }}
+                    <span class="text-muted">{{ form.meaning.help_text }}</span>
+                </div>
+                <div class="form-group">
+                            
+                    {{ form.exampe }}
+                    {{ form.exmape.errors }}
+                    <span class="text-muted">{{ form.exampe.help_text }}</span>
+                </div>
+                <div align="center">
+                    <button type="submit" class="btn btn-success btn-lg">SUBMIT</button>&nbsp;
+                    <button type="reset" class="btn btn-info btn-lg">RESET</button>&nbsp;
+                    <a href="{% url 'dashboard' %}" class="btn btn-danger btn-lg">CANCEL</a>
+                        
+                    
+                </div>
+                    
+                </div>
+            </form>
+            </div>
+            <div class="col-1">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'naijadict/base.html' %}
+{% load staticfiles %}
+{% load naijadicttags %}
+
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-4" id="leftdash">
+        <div align="center" class="dashimage">
+            {% if user.userprofile.profile_pic %}
+                <img src="{{MEDIA_URL}}{{user.userprofile.profile_pic}}" class="al">
+
+            {% else %}
+                {% if user.userprofile.gender == "male" %}
+                    <img src="{% static "images/manav.png" %}" class="al" align="center">
+                {% else %}
+                    <img src="{% static "images/womana.png" %}" class="al" align="center">
+                {% endif %}
+            {% endif %}
+        </div>
+        <br>
+        <div align="center">
+            <h3 id="naijadgreen">{{user.first_name|title}} {{user.last_name|title}}</h3>
+            <strong>Member since</strong><br>
+            {{user.date_joined|date:"D d M Y"}}.
+            <br><br>
+            <strong>Gender</strong><br>
+            {{user.userprofile.gender|title}}
+            <br><br>
+            <strong>Age</strong><br>
+            {{user.userprofile.age}}<br><br>
+            <strong>Location</strong><br>
+            {{user.userprofile.location|title}}<br>
+            <br>
+            <a href="{% url 'updateprofile' pk=user.userprofile.pk %}"><button type="submit" class="btn btn-success">UPDATE PROFILE</button></a>
+
+
+        </div>
+    </div>
+    <br>
+    <div class="col-md-8">
+        <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <br><br>
+                    <p align="center"><a href="{% url 'defcreateview' %}"><button type="submit" class="btn btn-success btn-lg">SUBMIT A WORD & DEFINITION</button></a></p>
+                <br>
+                <div>
+                    {% for post in user.userprofile.userinfo.all %}
+                        {% if post.user_name == user.username %}
+                        <!-- <h5 align="center">These are your contributed words</h5> -->
+                            {% if post.status == "approved" %}
+                                <div class="postedmessages">
+                                    <h6 align="right" class="approved"><strong>APPROVED</strong></h6>
+                                    <a href="/words/{{post.word}}/"><h5 class="postedword"><strong>{{post.word}}</strong></h5></a>
+                                    {% if post.meaning|spliter|strorlist == "list" %}
+                                        <ul>
+                                            {% for i in post.meaning|spliter %}
+                                                <li><p><span class="postedmeaning">{{i}}</span></p></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <ul>
+                                            <li><p><span class="postedmeaning">{{post.meaning}}</span></p></li>
+                                        </ul>
+                                    {% endif %}
+                                </div><br>
+                            {% elif post.status == "rejected" %}
+                                <div class="postedmessages">
+                                    <h6 align="right" class="rejected"><strong>REJECTED</strong></h6>
+                                    <h5 class="postedword"><strong>{{post.word}}</strong></h5>
+                                    {% if post.meaning|spliter|strorlist == "list" %}
+                                        <ul>
+                                            {% for i in post.meaning|spliter %}
+                                                <li><p><span class="postedmeaning">{{i}}</span></p></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <ul>
+                                            <li><p><span class="postedmeaning">{{post.meaning}}</span></p></li>
+                                        </ul>
+                                    {% endif %}
+                                </div><br>
+                            {% else %}
+                                <div class="postedmessages">
+                                    <p align="right" class="underreview"><strong><em>under review</em></strong></p>
+                                    <h5 class="postedword"><strong>{{post.word}}</strong></h5>
+                                    {% if post.meaning|strorlist == "list" %}
+                                        <ul>
+                                            {% for i in post.meaning %}
+                                                <li><p><span class="postedmeaning">{{i}}</span></p></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <ul>
+                                            <li><p><span class="postedmeaning">{{post.meaning}}</span></p></li>
+                                        </ul>
+                                    {% endif %}
+                                </div><br>
+                            {% endif %}
+                        {% else %}
+                            <div>
+                                <h4>You have not contributed any WORD, you can click the button above to submit one.</h4>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

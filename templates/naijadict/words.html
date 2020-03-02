@@ -1,0 +1,60 @@
+{% extends 'naijadict\base.html' %}
+{% load static %}
+{% load naijadicttags %}
+
+{% block title %}Random Words{% endblock %}
+{% block body %}
+
+<div class="res">
+    {% for definition in page_obj %}
+        <a href="{{ definition.word }}"><h3 class="listwords">&ensp;{{definition.word}}</h3></a>
+        {% if definition.meaning|spliter|strorlist == "list" %}
+            <ol>
+                {% for i in definition.meaning|spliter %}
+                    <li><p><span class="meaning">{{i|comotline}}</span></p></li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <ol>
+                <li><p><span class="meaning">{{definition.meaning|comotline}}</span></p></li>
+            </ol>
+        {% endif %}
+        <br>
+        <hr>
+        <br>
+    {% endfor %}
+</div>
+<br>
+<nav>
+    <ul class="pagination pagination pg-success justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            </li>
+        {% endif %}
+        {% if page_obj.number == 1 %}
+            <li class="page-item disabled">
+                <span class="page-link">Previous</span>
+            </li>
+        {% endif %}
+            <li class="page-item active">
+                <span class="page-link">
+                    {{ page_obj.number }}
+                <span class="sr-only">(current)</span>
+                </span>
+            </li>
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+        {% endif %}
+        {% if page_obj.number == page_obj.paginator.num_pages %}
+            <li class="page-item disabled">
+                <span class="page-link">Next</span>
+            </li>
+        {% endif %}
+
+
+    </ul>
+  </nav>
+{% endblock %}

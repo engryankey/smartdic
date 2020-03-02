@@ -1,0 +1,41 @@
+{% extends 'naijadict\base.html' %}
+{% load static %}
+
+{% block title %}Log In{% endblock %}
+{% block body %}
+<br><br><br>
+    {% if user.is_authenticated %}
+        <h1 class="display-4" align="center">You are logged in already.</h1>
+    {% else %}
+        <div class="row">
+            <div class="col">
+                
+            </div>
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            <div class="col-4">
+                <h3 align="center" id="loglogo"><img src="{% static "images/navbar2.png" %}" width="100px" height="auto"></h3>
+                <h3 align="center" id="naijadgreen">Enter your login details.</h3>
+                <form action="{% url 'userlogin' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-control" aria-describedby="emailHelp" placeholder="Username">
+                        <!-- <small align="center" id="emailHelp" class="form-text text-muted">Please enter the username you used when creating your account</small> -->
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control" placeholder="Password">
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg btn-block">LOG IN</button>
+                </form>
+                <p align="center"><font color="red">{{invalidlogin}}</font></p>
+            </div>
+            <div class="col">
+                
+            </div>
+        </div>
+    {% endif %}
+<br><br><br><br>
+{% endblock %}

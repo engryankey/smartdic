@@ -1,0 +1,51 @@
+{% extends 'naijadict/base.html' %}
+{% load static %}
+{% load naijadicttags %}
+
+{% block title %}{{defi.word|title}}{% endblock %}
+
+{% block body %}
+<div>
+    <form method="POST" id="form">
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                {% csrf_token %}
+                {{form}}
+            </div>
+            <div class="form-group col-md-2" align="center">
+                <button type="submit" class="btn btn-success btn-lg" align="center" id="subbtn">SEARCH</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="res">
+    <h1 class="display-4" align="center">OOPS</h1>
+    <p class="meaning" align="center">We couldn't provide a definition for <span id="ans"><strong>{{ans}}</strong></span>, or did you intend to type <span class="alti" id="ja"><strong>{{defi.word}}</strong></span>?</p>
+    <!-- <p><span class="word">{{defi.word|title}}: </span> <span class="meaning">{{defi.meaning}}</span></p> -->
+</div>
+<div class="foot">
+    <table class="table">
+        <tr>
+            {% for i in t_four|indexer:"0,4" %}
+                <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for i in t_four|indexer:"4,8" %}
+                <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for i in t_four|indexer:"8,12" %}
+                <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for i in t_four|indexer:"12,16" %}
+                <td>{{ i }}</td>
+            {% endfor %}
+        </tr>
+</table>
+</div>
+
+{% endblock %}

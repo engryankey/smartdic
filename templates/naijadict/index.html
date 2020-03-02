@@ -1,0 +1,30 @@
+{% extends 'naijadict/base.html' %}
+{% load static %}
+
+{% block title %}NaijaDict{% endblock %}
+
+{% block body %}
+<div class="">
+    <img src="{% static "/images/2753264.png" %}" class="homeimage">
+</div>
+<br>
+<div id="cent" class="mx-auto">
+    <form method="POST" id="form">
+    {% csrf_token %}
+    {{ form }}
+    <div id="hbtn">
+    <button type="submit" class="btn btn-success btn-lg" id="subbtn">SEARCH</button>
+    </div>
+    </form>
+</div>
+<br>
+<div>
+    <table align="center" class="table">
+            <tr>
+                {% for i in four %}
+                    <td>{{ i }}</td>
+                {% endfor %}
+            </tr>
+    </table>
+</div>
+{% endblock %}

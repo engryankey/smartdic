@@ -1,0 +1,9 @@
+{
+    "python.pythonPath": "C:\\Users\\sirto\\Anaconda3\\envs\\feb2020\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins",
+        "pylint_django"
+    ],
+}
